@@ -1,5 +1,5 @@
 # Nick Ladd - CSC 391 Machine Learning
-# Date: 09/25/16
+# Date: 10/02/16
 # Dr. Cho
 #
 # Input: A csv file that contains a dataset on different
@@ -7,6 +7,8 @@
 #
 # Output: A table that consists of the iteration, cost
 # function of that iteration, and the RMSE of that iteration.
+# In addition, we will include two graphs, one of the cost function
+# and one of the RMSE at each iteration.
 #
 # Constraints: I have been assigned one variable to analyze,
 # and I will do so with a univariate linear regression. Only
@@ -25,14 +27,15 @@ def main():
   filename = "winequality-red.csv";
   default_step_size = 1;
   dataset = [];
+  dataset_length = 0;
   variable_to_analyze = 1;
 
   # Function calls
   dataset = import_dataset(filename);
-  calculate_cost_function(dataset);
-  calculate_rmse(dataset);
+  dataset_length = len(dataset);
+  calculate_cost_function(dataset, dataset_length, variable_to_analyze);
 
-# Import dataset from a wine CSV provided
+# Dataset import - imports the dataset from a wine CSV provided
 def import_dataset(filename):
 
   # Array for our dataset
@@ -56,43 +59,58 @@ def import_dataset(filename):
   # Return imported dataset
   return dataset;
 
-# Cost function calculation
-def calculate_cost_function(dataset):
+# Cost function calculation - computes the cost function and returns the values to screen.
+def calculate_cost_function(dataset, dataset_length, variable_to_analyze):
 
   # Slope variable
   slope = 0;
 
   # Iterate through each point
-  for i in xrange(len(dataset)):
+  for i in xrange(dataset_length):
 
-    # Calculate updated slope
-    print "cost";
+    # Our current iteration variable
+    value = dataset[i][variable_to_analyze];
+
+    # Calculate the cost function
+    cost = value;
+
+    # Calculate the RMSE
+    rmse = calculate_rmse(dataset, i);
+
+    # Print the iteration's values ( properly tabbed )
+    print("| Iteration: " + str(i + 1) + " \t| Cost: " + str(cost) + " \t| RMSE: " + str(rmse) + " \t|").expandtabs(5);
 
   return True;
 
-# RMSE calculation
-def calculate_rmse(dataset):
+# RMSE calculation - calculates the RMSE of a given dataset and iteration.
+def calculate_rmse(dataset, iteration):
 
-  # Total sum variable
-  total_sum = 0;
+  if iteration > 0:
 
-  # Iterate through each point
-  for i in xrange(len(dataset)):
+    # Total sum variable
+    total_sum = 0;
 
-    # Take the difference between predicted and actual squared
-    difference = dataset[i][0] - (dataset[i][1]**2);
+    # Iterate through each point
+    for i in xrange(iteration):
 
-    # Add to our total sum
-    total_sum += difference;
+      # Take the difference between predicted and actual squared
+      difference = dataset[i][0] - (dataset[i][1]**2);
 
-  # Average the value
-  avg_difference = (total_sum / i);
+      # Add to our total sum
+      total_sum += difference;
 
-  # Square root the average
-  rmse = math.sqrt(avg_difference);
+    # Average the value
+    avg_difference = (total_sum / iteration);
 
-  # Return rmse
-  return rmse;
+    # Square root the average
+    rmse = math.sqrt(avg_difference);
+
+    # Return rmse
+    return rmse;
+
+  else:
+    return 0;
 
 # Execute main
 main();
+
