@@ -29,11 +29,12 @@ def main():
   dataset = [];
   dataset_length = 0;
   variable_to_analyze = 1;
+  wine_quality_column = 11;
 
   # Function calls
   dataset = import_dataset(filename);
   dataset_length = len(dataset);
-  calculate_cost_function(dataset, dataset_length, variable_to_analyze);
+  calculate_cost_function(dataset, dataset_length, variable_to_analyze, wine_quality_column);
 
 # Dataset import - imports the dataset from a wine CSV provided
 def import_dataset(filename):
@@ -60,7 +61,7 @@ def import_dataset(filename):
   return dataset;
 
 # Cost function calculation - computes the cost function and returns the values to screen.
-def calculate_cost_function(dataset, dataset_length, variable_to_analyze):
+def calculate_cost_function(dataset, dataset_length, variable_to_analyze, wine_quality_column):
 
   # Slope variable
   slope = 0;
@@ -78,7 +79,7 @@ def calculate_cost_function(dataset, dataset_length, variable_to_analyze):
     rmse = calculate_rmse(dataset, i);
 
     # Print the iteration's values ( properly tabbed )
-    print("| Iteration: " + str(i + 1) + " \t| Cost: " + str(cost) + " \t| RMSE: " + str(rmse) + " \t|").expandtabs(5);
+    print("| Iteration: " + str(i + 1) + " \t| Cost: " + str(cost) + " \t| RMSE: " + str(rmse) + " \t|").expandtabs(4);
 
   return True;
 
