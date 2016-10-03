@@ -146,7 +146,7 @@ def cost_function(x, y, m, b, size):
 def calculate_rmse(dataset, m, b, quality_variable, my_variable):
 
   # Total sum variable
-  total_sum = 0;
+  total_sum = 0.0;
 
   # Iterate through each point
   for i in range(len(dataset)):
