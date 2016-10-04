@@ -46,7 +46,7 @@ def import_dataset(filename):
   dataset = [];
 
   # open CSV file
-  with open(filename, 'rb') as csvfile:
+  with open(filename, 'rt') as csvfile:
 
     # skip header row
     next(csvfile);
@@ -56,7 +56,7 @@ def import_dataset(filename):
     for row in datareader:
 
       # typecast all row values as floats
-      row = map(lambda x: float(x), row);
+      row = list(map(lambda x: float(x), row));
 
       # append current row to our dataset
       dataset.append(row);
@@ -109,7 +109,7 @@ def gradient_descent(dataset, alpha, threshold, my_variable, quality_variable):
     rmse_list.append(rmse);
 
     # print the iteration's values ( properly tabbed )
-    print("| Iteration: " + str(iterations) + " \t| Cost function: " + format(theta, '.2f') + " \t| RMSE: " + str(rmse) + " \t|").expandtabs(5);
+    print("| Iteration: " + str(iterations) + " \t| Cost function: " + format(theta, '.2f').expandtabs(5) + " \t| RMSE: " + str(rmse).expandtabs(5) + " \t|");
 
   # return our computed regression line variables (m: slope, b: y-intercept) and our RMSE list
   return m, b, rmse_list, iterations;
