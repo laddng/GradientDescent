@@ -27,8 +27,8 @@ def main():
 
   # variables
   filename = "winequality-red.csv"; # our csv file
-  alpha = 0.00004; # step size for gradient descent (higher step size = more accurate results, slower)
-  threshold = 0.25; # the maximum acceptable derivative for convergence criteria
+  alpha = 0.0005; # step size for gradient descent (higher step size = more accurate results, slower)
+  threshold = 0.05; # the maximum acceptable derivative for convergence criteria
   dataset = []; # our dataset
   my_variable = 1; # location of our data point in csv
   quality_variable = 11; # location of the wine quality data point in csv
@@ -121,7 +121,7 @@ def gradient_calculation(dataset, m, b, alpha, my_variable, quality_variable):
   # variables to store our new gradient calculations
   m_gradient = 0.0;
   b_gradient = 0.0;
-  dataset_size = len(dataset);
+  dataset_size = float(len(dataset));
 
   # iterate through whole dataset and calculate the gradient of each point
   for i in range(len(dataset)):
@@ -134,8 +134,8 @@ def gradient_calculation(dataset, m, b, alpha, my_variable, quality_variable):
     # using the derivative of the cost function and the points of this iteration. 
     # Then add the result to our gradient variables.
     cost = cost_function_derivative( x, y, m, b ); # compute theta with actual and predicted
-    m_gradient += -1 * (2.0/ ( 1.0 * dataset_size ) ) * x * cost; # compute gradient of m
-    b_gradient += -1 * (2.0/ ( 1.0 * dataset_size ) ) * cost; # computer gradient of b
+    m_gradient += -( 2.0 / dataset_size ) * x * cost; # compute gradient of m
+    b_gradient += -( 2.0 / dataset_size ) * cost; # computer gradient of b
 
   # with our new gradients calculated, we step in the opposite direction by our alpha amount
   m = m - ( alpha * m_gradient );
@@ -148,14 +148,14 @@ def gradient_calculation(dataset, m, b, alpha, my_variable, quality_variable):
 # ** Cost Function Calculation **
 # computes the cost and returns it
 def cost_function(x, y, m, b):
-  cost = ( y - (( m * x ) + b ) ) ** 2;
+  cost = ( y - ( ( m * x ) + b ) ) ** 2;
   return cost;
 
 # ** Cost Function Derivative **
 # computes the gradient with the derivative of the
 # cost function
 def cost_function_derivative(x, y, m, b):
-  cost = 2.0 * (( y - (( m * x ) + b ) ));
+  cost = y - ( ( m * x ) + b );
   return cost;
 
 # ** RMSE Calculation **
@@ -166,24 +166,24 @@ def calculate_rmse(dataset, m, b, quality_variable, my_variable):
   total_sum = 0.0;
 
   # Iterate through each point
-  for i in range(len(dataset)):
+  for i in range( len( dataset ) ):
 
     # calculate predicted wine quality values for a given y values
     y = dataset[i][my_variable];
-    predicted_x = (( y - b) / m ); # predicted wine quality value
+    predicted_x = ( ( y - b) / m ); # predicted wine quality value
     actual_x = dataset[i][quality_variable]; # actual wine quality value
 
     # Take the difference between predicted and actual squared
-    difference = (actual_x - predicted_x) **2;
+    difference = ( actual_x - predicted_x ) **2;
 
     # Add to our total sum
     total_sum += difference;
 
   # Average the value
-  avg_difference = (total_sum / len(dataset));
+  avg_difference = ( total_sum / float( len( dataset ) ) );
 
   # Square root the average
-  rmse = math.sqrt(avg_difference);
+  rmse = math.sqrt( avg_difference );
 
   # Return rmse
   return rmse;
